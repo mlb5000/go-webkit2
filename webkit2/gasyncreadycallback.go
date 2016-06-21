@@ -5,6 +5,7 @@ package webkit2
 import "C"
 import (
 	"errors"
+	"fmt"
 	"reflect"
 	"unsafe"
 )
@@ -17,6 +18,14 @@ type garCallback struct {
 func _go_gasyncreadycallback_call(cbinfoRaw C.gpointer, cresult unsafe.Pointer) {
 	result := (*C.GAsyncResult)(cresult)
 	cbinfo := (*garCallback)(unsafe.Pointer(cbinfoRaw))
+
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("Recovered in f", r)
+			cbinfo.f.Call([]reflect.Value{})
+		}
+	}()
+
 	cbinfo.f.Call([]reflect.Value{reflect.ValueOf(result)})
 }
 
