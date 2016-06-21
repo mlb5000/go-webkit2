@@ -26,3 +26,12 @@ func (s *Settings) GetEnableWriteConsoleMessagesToStdout() bool {
 func (s *Settings) SetEnableWriteConsoleMessagesToStdout(write bool) {
 	C.webkit_settings_set_enable_write_console_messages_to_stdout(s.settings, gboolean(write))
 }
+
+// SetUserAgent sets the
+// "user-agent" property.
+//
+// See also: webkit_settings_set_user_agent at
+// http://webkitgtk.org/reference/webkit2gtk/stable/WebKitSettings.html#webkit_-ettings-set-user-agent
+func (s *Settings) SetUserAgent(userAgent string) {
+	C.webkit_settings_set_user_agent(s.settings, (*C.gchar)(C.CString(userAgent)))
+}
